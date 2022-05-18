@@ -1,0 +1,39 @@
+{
+	"engines": {
+		"npm": "use-yarn",
+		"pnpm": "use-yarn",
+		"yarn": ">=1.22.0"
+	},
+	"name": "merri.net",
+	"version": "2022.0.0",
+	"main": "src/pages/index.astro",
+	"type": "module",
+	"license": "MIT",
+	"dependencies": {
+		"@astrojs/renderer-solid": "0.4.2",
+		"@types/memoizee": "0.4.8",
+		"astro": "0.24.3",
+		"memoizee": "0.4.15",
+		"normalize.css": "8.0.1",
+		"prettier-plugin-astro": "0.0.12",
+		"sanitize.css": "13.0.0",
+		"solid-js": "1.4.1"
+	},
+	"scripts": {
+		"start": "astro dev",
+		"build": "astro build",
+		"dev": "astro dev --local-development"
+	},
+	"devDependencies": {
+		"@types/d3-color": "^3.0.2",
+		"@types/node": "^17.0.21",
+		"d3-color": "^3.1.0"
+	},
+	"keywords": [
+		"astro",
+		"settlers2",
+		"solidjs",
+		"vite"
+	],
+	"description": "Merri.net - English homepage"
+}

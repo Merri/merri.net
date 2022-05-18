@@ -1,0 +1,31 @@
+---
+import 'normalize.css'
+import 'sanitize.css'
+import 'sanitize.css/typography.css'
+
+import { Markdown } from 'astro/components';
+
+import { Test } from '../components/Test.tsx'
+
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello Astro!</title>
+    <style>
+body {
+  padding: 1rem;
+}
+    </style>
+  </head>
+  <body>
+    <Markdown>
+      # Merri.net
+
+      Initial commit.
+    </Markdown>
+
+    <Test client:load />
+  </body>
+</html>
