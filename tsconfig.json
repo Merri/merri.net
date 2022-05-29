@@ -1,7 +1,15 @@
 {
-  "compilerOptions": {
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "strict": true
-  }
+	"moduleResolution": "node",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"$/*": ["src/*"],
+			"$layouts/*": ["src/layouts/*"]
+		},
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+		"strict": true
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist", "public"]
 }

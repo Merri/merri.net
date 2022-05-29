@@ -1,0 +1,53 @@
+ol {
+	list-style: none;
+	margin: 2rem 0;
+	padding: 0;
+	text-align: right;
+}
+ol > li {
+	margin: 1rem 0;
+}
+ol a {
+	display: block;
+}
+ol a::before {
+	background-size: 100%;
+	filter: blur(1px) contrast(1.5) sepia(0.75) drop-shadow(0 0 8px black);
+	height: 30px;
+	margin-top: 2em;
+	width: 48px;
+}
+ol a:focus-visible,
+ol a:hover {
+	filter: drop-shadow(0 0 0.5rem white);
+}
+ol a:focus-visible .ff9-dialog,
+ol a:hover .ff9-dialog {
+	filter: brightness(1.125);
+}
+.ff9-dialog {
+	box-sizing: border-box;
+	display: inline-block;
+	font-size: 14px;
+	line-height: 1.333;
+	margin: 0 1ch 0 0;
+	padding: 1rem 2rem;
+	text-align: left;
+	width: calc(100% - 2ch);
+}
+.ff9-dialog > * {
+	pointer-events: none;
+}
+.ff9-dialog > h2 {
+	font-size: 18px;
+	font-weight: normal;
+	margin: 0;
+}
+.ff9-dialog > small {
+	color: #c7c7c7;
+	display: block;
+	padding: 0.5rem 0.125rem 1rem;
+}
+.ff9-dialog > small > time:first-of-type {
+	color: white;
+}

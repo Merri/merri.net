@@ -1,31 +1,82 @@
 ---
-import 'normalize.css'
-import 'sanitize.css'
-import 'sanitize.css/typography.css'
+import format from 'date-fns/format';
 
-import { Markdown } from 'astro/components';
+import BaseHead from '$/components/BaseHead.astro';
+import PageFooter from '$/components/PageFooter.astro';
+import PageHeader from '$/components/PageHeader.astro';
+import Heroes from '$/components/Heroes.astro';
+import type { BlogPost } from '$/types/blogPost';
 
-import { Test } from '../components/Test.tsx'
-
+const allPosts = await Astro.glob<BlogPost>('./topics/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*.md');
+allPosts.sort((a, b) => +new Date(b.frontmatter.lastUpdateDate || b.frontmatter.publishDate) - +new Date(a.frontmatter.lastUpdateDate || a.frontmatter.publishDate));
 ---
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello Astro!</title>
-    <style>
-body {
-  padding: 1rem;
-}
-    </style>
-  </head>
-  <body>
-    <Markdown>
-      # Merri.net
 
-      Initial commit.
-    </Markdown>
+<head>
+	<BaseHead title="Merri.net"
+		description="Welcome to the English speaking homepage of Vesa Piittinen! Find out who is this autistic nerd with a neurodivergent mastermind." />
+</head>
 
-    <Test client:load />
-  </body>
+<body>
+	<PageHeader />
+	<main id="main">
+		<Heroes title="Merri's Blog">
+			<p>
+				Welcome to my <abbr title="Final Fantasy IX">FF9</abbr> &amp;
+				<abbr title="Heroes of Might and Magic III">HoMM3</abbr> inspired site. I write on various topics
+				that are of interest to me.<br />Things such as programming or games.
+			</p>
+			<p><strong>TIP!</strong> Annoying sound effects? Turn them off from the speaker icon in the top menu bar.
+			</p>
+			<hr />
+			<ol>
+				{allPosts.map((content) => {
+				const url = content.url?.replace(/\/index$/, '');
+				const date = new Date(content.frontmatter.publishDate);
+				const updateDate = content.frontmatter.lastUpdateDate && new Date(content.frontmatter.lastUpdateDate);
+				const published = format(date, 'PPP');
+				const ymd = format(date, 'yyyy-MM-dd');
+
+				return (
+				<li>
+					<a href={url}>
+						<div class="ff9-dialog">
+							<h2>{content.frontmatter.title}</h2>
+							<small><time datetime={ymd}>{published}</time>{updateDate && <> (updated on <time
+										datetime={format(updateDate, 'yyyy-MM-dd' )}>{format(updateDate, 'PPP')}</time>)
+								</>}</small>
+							{content.frontmatter.description}
+						</div>
+					</a>
+				</li>
+				)
+				})}
+			</ol>
+		</Heroes>
+		<iframe width="560" height="315"
+			src="https://www.youtube-nocookie.com/embed/fW3tOmLgd3?list=PLxAX2CW8tcpqI6GBc5hQX1KBX4fRcGh1U"
+			title="YouTube video player" frameborder="0"
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+			allowfullscreen></iframe>
+		<style>
+			@import './topics.css';
+
+			iframe {
+				aspect-ratio: 560 / 315;
+				display: block;
+				height: auto;
+				margin: 0 auto;
+				max-width: var(--main-content-width);
+				width: 100%;
+			}
+
+			abbr {
+				text-decoration: none;
+			}
+		</style>
+	</main>
+	<PageFooter />
+</body>
+
 </html>

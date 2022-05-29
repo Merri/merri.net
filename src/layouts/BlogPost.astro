@@ -1,0 +1,70 @@
+---
+export interface Props {
+	content: {
+		title: string
+		description: string
+		publishDate: string
+		lastUpdateDate?: string
+		author?: string
+		alt?: string
+		devUrl?: string
+	};
+}
+
+import BaseHead from '$/components/BaseHead.astro';
+import Disqus from '$/components/Disqus.astro';
+import Heroes from '$/components/Heroes.astro';
+import PageFooter from '$/components/PageFooter.astro';
+import PageHeader from '$/components/PageHeader.astro';
+import { getPermalink } from '$/lib/getPermalink';
+
+const { content } = Astro.props;
+const { title, description, publishDate, lastUpdateDate, author, alt, devUrl } = content;
+
+const published = new Date(publishDate);
+const lastUpdated = lastUpdateDate && new Date(lastUpdateDate);
+
+const fixPathname = (Astro.canonicalURL.pathname === content.redirectPathnameFrom && content.redirectPathnameTo) || null
+const permalink = getPermalink(Astro.canonicalURL, fixPathname)
+---
+
+<html lang={ content.lang || 'en' }>
+
+<head>
+	<BaseHead title={title} description={description} fixPathname={fixPathname} />
+</head>
+
+<body>
+	<PageHeader />
+	<main id="main">
+		<Heroes title={title} published={published} lastUpdated={lastUpdated} author={author}>
+			<slot />
+			{devUrl && <>
+				<div class="ff9-dialog">
+					This post has been cross-posted to <a class="dev-link" href={devUrl}>DEV</a>.<br />Your comments
+					might reach a bigger audience there!
+				</div>
+				<style>
+					.ff9-dialog {
+						margin-top: 4rem;
+						padding: 1rem;
+						text-align: center;
+					}
+
+					.dev-link {
+						display: inline-block;
+						margin: -1rem;
+						padding: 1rem;
+					}
+				</style>
+			</>}
+		</Heroes>
+	</main>
+	<nav id="post-main">
+		<p><a href="/"><span aria-hidden="true">⬅️</span> Go to homepage</a></p>
+	</nav>
+	<Disqus permalink={permalink} />
+	<PageFooter />
+</body>
+
+</html>

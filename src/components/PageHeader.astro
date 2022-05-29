@@ -1,0 +1,51 @@
+---
+
+---
+
+<div style="position:absolute">
+	<a href="#main" aria-hidden="false" hidden>Skip to Content</a>
+</div>
+<header class="top-header">
+	<h2 class="top-header-title">
+		Merri.net
+		<img alt="" src="/assets/vivi-hat.png" height="200" width="168" style="width:32px" />
+	</h2>
+	<nav class="top-header-nav">
+		<ul class="top-header-menu">
+			<li class="top-header-menu-item" id="toggle-volume-off">
+				<a href="#toggle-volume-on" title="Turn sounds off">🔊</a>
+			</li>
+			<li class="top-header-menu-item" id="toggle-volume-on">
+				<a href="#toggle-volume-off" title="Turn sounds on">🔈</a>
+			</li>
+			<li class="top-header-menu-item">
+				<a href="/">Home</a>
+			</li>
+			<li class="top-header-menu-item">
+				<a href="/topics">Topics</a>
+			</li>
+			<li class="top-header-menu-item">
+				<a href="/about">About</a>
+			</li>
+		</ul>
+	</nav>
+</header>
+<style is:global>
+	html[data-sound="false"] #toggle-volume-off,
+	html[data-sound="true"] #toggle-volume-on {
+		display: none;
+	}
+
+	.top-header-nav {
+		padding-left: 16px;
+		position: relative;
+	}
+
+	#toggle-volume-off,
+	#toggle-volume-on {
+		position: absolute;
+		right: 100%;
+		top: 50%;
+		transform: translateY(-50%) translateX(75%);
+	}
+</style>

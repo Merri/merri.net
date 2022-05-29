@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Noscript Image Lazy Loader</title>
+        <style type="text/css">
+#debug {
+    background: rgba(160, 80, 0, 0.2);
+    font-size: 0.75em;
+    margin: 0;
+    padding: 0.5em;
+    position: fixed;
+    right: 0;
+    text-shadow: 0 0 2px white;
+    top: 0;
+    z-index: 1;
+}
+
+/* just to add distance between images */
+img,noscript[data-lazy-img] {
+    border: 1px dotted #ccc;
+    display: block;
+    margin: 20em 10em;
+}
+
+img.fails {
+    border-color: red;
+    margin-top: 0;
+}
+
+li {
+    font-size: 0.875em;
+    line-height: 1.5;
+}
+
+/* a little bit of style */
+html {
+    padding: 2em;
+}
+
+dl {
+    margin: 1em;
+}
+
+dt {
+    display: list-item;
+    font-weight: bold;
+}
+
+dd {
+    font-size: 0.875em;
+    margin: 1em;
+}
+        </style>
+    </head>
+    <body>
+        <pre id="debug"></pre>
+        <b style="color:#A00">Note: iOS gives incorrect <code>innerHeight</code> and <code>getBoundingClientRect</code> values inside iframes, so that is why images are loaded immediately on it. CodePen forces iframes. That is evil.</b>
+        <h1>Noscript Image Lazy Loader (vanilla JavaScript version)</h1>
+        <p>Main purpose of lazy loading: save <strong>your</strong> bandwidth. Side effect: user's initial page load time might reduce. However user may also see images flashing as they are loaded.</p>
+        <h2>How Lazy Loading Works</h2>
+        <ul>
+            <li>HTML syntax must not cause images to load (no <code>img src=""</code>), if image is in renderable DOM before script executes then browser will attempt to load it.</li>
+            <li>Traditional lazy loader syntax is like <code>&lt;img src="placeholder-image.png" data-src="actual-image-to-load.png" width="actualImagesWidth" height="actualImagesHeight" /&gt;</code> or some other form of HTML attribute hiding.</li>
+            <li>Downside of the above is that search engines and javascript disabled browsers won't see the real image. (However search engines have begun to execute JS so this is changing.)</li>
+            <li>Another downside is that you must have a separate placeholder image. You could also use inline base64 encoded image, but those are lengthy.</li>
+        </ul>
+        <h2>Lazy Loading Challenges</h2>
+        <dl>
+            <dt>Should work JavaScript disabled</dt>
+            <dd>Just without lazy loading of course. Also means Google and other search engines can access the image.</dd>
+            <dt>Should have short syntax</dt>
+            <dd>Many solutions seem to easily become quite verbose with their HMTL. Especially if you want to support the above.</dd>
+            <dt>Don't be slow!</dt>
+            <dd>Some solutions seem to be very slow on initial page load: in my tests with mere 50 images jQuery JAIL plugin spent 150 ms setting stuff up!</dd>
+            <dt>Should account for both vertical and horizontal scrolling.</dt>
+            <dd>Some solutions only account for vertical scrolling.</dd>
+            <dt>Should be possible to make work on Internet Explorer 8-</dt>
+            <dd>The smaller you make it and the more feature requirements you add the more likely you are going to run into compatibility barriers.</dd>
+        </dl>
+
+        <noscript data-lazy-img><img alt="Test IE8" title="FYI: This does not work on IE8 and below" src="http://i1-news.softpedia-static.com/images/news2/Critical-Out-of-Band-Patch-for-Internet-Explorer-8-2.jpg" height="417" width="417" /></noscript>
+
+        <!--[if IE 9]><!--><noscript data-lazy-img><!--<![endif]--><img alt="Test 1" src="http://placehold.it/183x360" height="360" width="183" /><!--[if IE 9]><!--></noscript><!--<![endif]-->
+
+        <!--[if IE 9]><!--><noscript data-lazy-img><!--<![endif]--><img alt="Test 2" src="http://placehold.it/267x300" height="300" width="267" /><!--[if IE 9]><!--></noscript><!--<![endif]-->
+
+        <!--[if IE 9]><!--><noscript data-lazy-img><!--<![endif]--><img alt="Test 3" src="http://placehold.it/193x156" height="156" width="193" /><!--[if IE 9]><!--></noscript><!--<![endif]-->
+
+        Image that fails to load:
+        <!--[if IE 9]><!--><noscript data-lazy-img><!--<![endif]--><img class="fails" alt="Test Fail" src="#obviously-is-not-an-image" height="300" width="300" /><!--[if IE 9]><!--></noscript><!--<![endif]-->
+
+        <h2>The Requirements</h2>
+        <dl>
+            <dt>With IE8 support:</dt>
+            <dd>IE8 <strong>will not lazy load</strong>! Conditional comments are required for IE8 to display the images.</dd>
+            <dd>Add before image: <code>&lt;!--[if IE 9]&gt;&lt;!--&gt;&lt;noscript data-lazy-img&gt;&lt;!--&lt;![endif]--&gt;</code></dd>
+            <dd>Add after image: <code>&lt;!--[if IE 9]&gt;&lt;!--&gt;&lt;/noscript&gt;&lt;!--&lt;![endif]--&gt;</code></dd>
+            <dd>Image must have width and height attributes set (as always with lazy loading).</dd>
+            <dt>IE9+:</dt>
+            <dd>Add before image: <code>&lt;noscript data-lazy-img&gt;</code></dd>
+            <dd>Add after image: <code>&lt;/noscript&gt;</code></dd>
+            <dd>Image must have width and height attributes set (as always with lazy loading).</dd>
+        </dl>
+
+        <h3>Customization</h3>
+
+        <p><code>noscriptImageLazyLoader</code> can take a few options in:</p>
+        <pre><code>{
+    attribute: 'lazy-img',
+    events: ['resize', 'scroll', 'touchend'],
+    interval: 500,
+    placeholder: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+}
+        </code></pre>
+        <dl>
+            <dt>attribute</dt>
+            <dd>Defaults to <code>&lt;noscript data-lazy-img&gt;</code></dd>
+            <dt>events</dt>
+            <dd>Array of events after which images visible in viewport are checked for. Note that mobile devices such as iOS do not update their scroll position information in real time when touch scrolling.</dd>
+            <dt>interval</dt>
+            <dd>A fallback mechanism that checks every 0.5 seconds for images visible in viewport by default. Can be turned off by giving zero or any non-number.</dd>
+            <dt>placeholder</dt>
+            <dd>Placeholder image. Defaults to transparent base64 encoded gif image (which allows you to set a loading image as background image in CSS).</dd>
+        </dl>
+
+        <hr />
+
+        <h2>The Good</h2>
+        <p>Shortest syntax I know of that also supports JS disabled.</p>
+        <p>Answers all the challenges in a positive manner.</p>
+
+        <h2>The Bad</h2>
+        <p>There can be a small delay after page is first rendered and JavaScript execution which means page layout might be re-calculated when noscript elements are replaced with images.</p>
+        <p>Also doesn't support responsive loading if you fancy that.</p>
+
+        <h2>The Weird &amp; Ugly</h2>
+        <p>Internet Explorer Conditional Comments: IE 8 and below don't allow accessing contents of noscript elements.</p>
+        <p>With some simple conditional comments we can hide noscript element tags from those IEs so they work as if JS is disabled.</p>
+        <p>But then we get no lazy loading.</p>
+
+
+        <script type="text/javascript">
+// generic throttle function
+function throttle(func, wait) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    if(!timeout) {
+      timeout = setTimeout(function() {
+        timeout = null;
+      }, wait);
+      func.apply(context, args);
+    }
+  };
+}
+
+function isFunction(variable) {
+  return variable && {}.toString.call(variable) === '[object Function]';
+}
+
+// naive function for seeing if element is visible in user's viewport
+function isElementInViewport(element) {
+  var elementBounds = element.getBoundingClientRect();
+  
+  return window.innerHeight > elementBounds.top
+    && 0 < elementBounds.bottom
+    && window.innerWidth > elementBounds.left
+    && 0 < elementBounds.right;
+}
+
+var noscriptImageLazyLoader = function(options) {
+  var container = document.createElement('div'),
+      defaultOptions = {
+        attribute: 'lazy-img',
+        events: ['resize', 'scroll', 'touchend'],
+        interval: 500,
+        placeholder: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+      },
+      imageElementsInDOM = [],
+      interval,
+      processedLazyLoads = 0,
+      settingTextToNoscriptFailsInIE8AndBelow = document.createElement('noscript');
+  
+  try {
+    settingTextToNoscriptFailsInIE8AndBelow.innerText = '';
+  } catch(err) {
+    return;
+  }
+  
+  settingTextToNoscriptFailsInIE8AndBelow = void 0;
+  
+  options = options || defaultOptions;
+  if(typeof options.attribute !== 'string') options.attribute = defaultOptions.attribute;
+  if(!Array.isArray(options.events)) options.events = defaultOptions.events;
+  if(typeof options.placeholder !== 'string') options.placeholder = defaultOptions.placeholder;
+  options.interval = options.interval == null ? defaultOptions.interval : ~~options.interval;
+  
+  function attemptToLoadImage(temporaryImageElement, lazyLoadedImageSrc, imageElementInDOM) {
+    temporaryImageElement.onload = function() {
+      imageElementInDOM.src = temporaryImageElement.src;
+      processedLazyLoads++;
+      if(isFunction(options.lazyLoadCallback))
+        options.lazyLoadCallback(imageElementInDOM, lazyLoadedImageSrc, true);
+    };
+    temporaryImageElement.onerror = function() {
+      processedLazyLoads++;
+      if(isFunction(options.lazyLoadCallback))
+        options.lazyLoadCallback(imageElementInDOM, lazyLoadedImageSrc, false);
+    };
+    imageElementInDOM.removeAttribute('data-src');
+    temporaryImageElement.src = lazyLoadedImageSrc;
+  }
+  
+  var loadImagesVisibleInViewport = throttle(function() {
+
+    if(processedLazyLoads < imageElementsInDOM.length) {
+      imageElementsInDOM.forEach(function(imageElementInDOM) {
+        var src = imageElementInDOM.getAttribute('data-src');
+        
+        if(src && isElementInViewport(imageElementInDOM)) {
+          attemptToLoadImage(new Image(), src, imageElementInDOM);
+        }
+      });
+    } else {
+      clearInterval(interval);
+      
+      options.events.forEach(function(event) {
+        window.removeEventListener(event, loadImagesVisibleInViewport, false);
+      });
+      
+      imageElementsInDOM.length = 0;
+    }
+  }, 50);
+  
+  Array.prototype.forEach.call(document.querySelectorAll('noscript[data-' + options.attribute + ']'), function(noscript) {
+    container.innerHTML = noscript.textContent || noscript.innerText;
+    
+    var imageElementToLazyLoad = container.querySelector('img');
+    
+    if(imageElementToLazyLoad) {
+      imageElementToLazyLoad.setAttribute('data-src', imageElementToLazyLoad.src);
+      imageElementToLazyLoad.src = options.placeholder;
+      noscript.parentNode.replaceChild(imageElementToLazyLoad, noscript);
+      imageElementsInDOM.push(imageElementToLazyLoad);
+    }
+  });
+  
+  if(imageElementsInDOM.length) {
+    loadImagesVisibleInViewport();
+    options.events.forEach(function(event) {
+      window.addEventListener(event, loadImagesVisibleInViewport, false);
+    });
+    if(options.interval > 0)
+      interval = setInterval(loadImagesVisibleInViewport, options.interval);
+  }
+  
+  container = void 0;
+};
+
+
+// some sample usage
+
+!function() {
+  var debug = document.getElementById('debug');
+
+  debug.textContent = 'Initial viewport size: ' + window.innerWidth + 'x' + window.innerHeight;
+  
+  setTimeout(function() {
+    debug.textContent += "\n" + 'Viewport size 1s later: ' + window.innerWidth + 'x' + window.innerHeight;
+  }, 1000);
+
+  noscriptImageLazyLoader({
+    lazyLoadCallback: function(imageElement, imageSrc, loaded) {
+      var elementBounds = imageElement.getBoundingClientRect();
+      
+      debug.textContent += "\n" + imageElement.alt + ' [' + (loaded ? 'success' : 'fail') + '] @ ' + ~~elementBounds.left + 'x' + ~~elementBounds.top + ' / ' + ~~elementBounds.right + 'x' + ~~elementBounds.bottom;
+    }
+  });
+}();
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,51 @@
+---
+export interface Props {
+	title: string
+	published?: Date
+	lastUpdated?: Date
+	author?: string
+}
+
+import format from 'date-fns/format';
+
+const { title, published, lastUpdated, author } = Astro.props;
+
+const hasMeta = published != null || author != null || lastUpdated != null;
+
+---
+
+<article class="homm3-dialog">
+	<header class="homm3-dialog-header">
+		<h1>{title}</h1>
+		{hasMeta && (
+		<>
+			<div class="dates">
+				{published != null && <time datetime={published.toISOString().slice(0, 10)}>{format(published,
+					'PPPP')}</time>}
+				{author != null && <span>by {author}</span>}
+				{lastUpdated != null && <time datetime={lastUpdated.toISOString().slice(0, 10)}>(last updated on
+					{format(lastUpdated, 'PPP')})</time>}
+			</div>
+			<hr />
+		</>
+		)}
+	</header>
+	<section class="homm3-dialog-content">
+		<slot />
+	</section>
+</article>
+<style>
+	h1 {
+		margin-bottom: 0;
+	}
+
+	.dates {
+		font-family: var(--font-pixel);
+		font-size: 8px;
+		line-height: 2;
+	}
+
+	.dates>time:not(:first-child) {
+		color: #c7c7c7;
+	}
+</style>
