@@ -6,7 +6,7 @@ export interface Props {
 	author?: string
 }
 
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 
 const { title, published, lastUpdated, author } = Astro.props;
 
