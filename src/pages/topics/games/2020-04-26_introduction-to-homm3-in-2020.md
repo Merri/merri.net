@@ -1,5 +1,5 @@
 ---
-title: 'Introduction to HoMM 3 in 2020'
+title: 'Introduction to HoMM III in 2020'
 publishDate: '2020-04-26'
 lastUpdateDate: '2022-05-22'
 layout: '$layouts/BlogPost.astro'
