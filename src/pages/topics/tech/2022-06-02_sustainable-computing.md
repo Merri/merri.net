@@ -21,6 +21,10 @@ This all changed with Ryzen. AMD managed to create a winning architecture that p
 cores, but these new cores also had the punch to be good enough against Intel's offerings. And, most importantly, AMD
 could offer these new processors for less money. Eventually Intel was forced to bring their prices down and offer more.
 
+<p style="text-align:center">
+	<img alt="Ryzen logo" src="/gfx/logos/ryzen.png" width="204" height="128" />
+</p>
+
 ## The era of fast progress
 
 Computing is still a rather new industry. The home computer market has been around for only about 50 years. Altair was
@@ -67,12 +71,12 @@ we do not truly get results that are in the true interest of people, but of thos
 
 So what kind of practical issues this mentality gives us?
 
-- Motherboard sockets that change every two years, forcing to always buy a new motherboard (Intel does this)
-- Continuous stream of new proprietary standards (for example NVidia's CUDA and DLSS)
-- Software that drops support to older computer hardware sooner than necessary (Windows 11)
-- Cheap short life computers for those who can't afford a better one
-- NVidia selling their production to crypto miners and thus artificially increasing the consumer prices
-- Production of products nobody wants or needs (example: the 99 € Intel Windows 8 tablets)
+-   Motherboard sockets that change every two years, forcing to always buy a new motherboard (Intel does this)
+-   Continuous stream of new proprietary standards (for example NVidia's CUDA and DLSS)
+-   Software that drops support to older computer hardware sooner than necessary (Windows 11)
+-   Cheap short life computers for those who can't afford a better one
+-   NVidia selling their production to crypto miners and thus artificially increasing the consumer prices
+-   Production of products nobody wants or needs (example: the 99 € Intel Windows 8 tablets)
 
 And if we're honest there are tons more issues, but the heart of all of this is the **wasteful use of resources**. You
 often hear how the capitalist system is efficient, but in reality it is often rather wasteful. The only thing it is
@@ -121,6 +125,13 @@ But for the vast majority we would instead like to standardize a common system. 
 competition we would see companies working in perfect co-operation and to agree on truly modular standards which are
 planned to be used for decades.
 
+<figure style="font-size:0.875rem;margin-block:2rem;text-align:center">
+	<img alt="Creative Soundblaster AWE64 CT4500 ISA Sound Card" src="/assets/pictures/creative-soundblaster-awe64-ct4500-isa-sound-card.jpg" width="1280" height="854" />
+	<figcaption>
+		ISA sound cards could still be perfectly usable (source: <a href="https://sierra-indigo.com/creative-soundblaster-awe64-ct4500-isa-sound-card/" rel="nofollow">Sierra_indigo</a>)
+	</figcaption>
+</figure>
+
 I think this is possible especially now: we've reached a point where even the lower end of computers available at a
 store packs enough power for the majority of daily use. Sound technology has been great for decades, graphics are
 getting very close to the ultra realism we've desired for so long, and display technology has become quite incredible
@@ -133,15 +144,15 @@ are only one part of the equation. The hard part would be to design the thing to
 
 What goals does it need to meet?
 
-- Modularity, which allows repairs and upgrades
-- Compatibility, which allows upgrades over long time span
-- Expansion, which allows upgrades
-- Redundancy, which allows system to continue working even if something breaks and allows notifying of a need of repair
-- Clarity, which allows people to understand what has broken and what needs to be done to fix it
-- Software that continues to be updated
-- Accessible by default, everything that can be done visually should also be doable without a screen
-- Optimally no moving parts
-- Recycling, which allows material re-use once a part has broken beyond usability
+-   Modularity, which allows repairs and upgrades
+-   Compatibility, which allows upgrades over long time span
+-   Expansion, which allows upgrades
+-   Redundancy, which allows system to continue working even if something breaks and allows notifying of a need of repair
+-   Clarity, which allows people to understand what has broken and what needs to be done to fix it
+-   Software that continues to be updated
+-   Accessible by default, everything that can be done visually should also be doable without a screen
+-   Optimally no moving parts
+-   Recycling, which allows material re-use once a part has broken beyond usability
 
 These are not new ideas, but they have certainly not been driven to the maximum over the years. For example, if there is
 a failure in an SSD drive it is way too common that the SSD becomes entirely unusable. There is no redundancy to allow
@@ -169,6 +180,13 @@ In the world that is to come, a world we hopefully get without the deadline of f
 to a brink of desctruction, we really don't need to keep producing so much stuff. This means that the stuff that we do
 have to create can be given a lot of time and care, and are thus expensive in monetary value. But that stuff will also
 keep functioning and remain usable unlike the stuff that the current world system creates.
+
+<figure style="font-size:0.875rem;margin-block:2rem;text-align:center">
+	<img alt="" src="/assets/pictures/yakushiji-and-wakakusayama.jpg" width="740" height="416" />
+	<figcaption>
+		Yakushiji and Wakakusayama in the distance (source: <a href="https://www.japan-guide.com/e/e4105.html">japan-guide.com</a>)
+	</figcaption>
+</figure>
 
 In the past buildings were truly built to last. Japanese carpenters knew how to build and maintain buildings that last
 for thousands of years. **Wooden buildings**. In the modern times Japanese carpenters are in a crisis: there are ever
