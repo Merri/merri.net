@@ -13,27 +13,26 @@ import { getPermalink } from '$/lib/getPermalink';
 const { title, description, fixPathname } = Astro.props;
 const permalink = getPermalink(Astro.canonicalURL, fixPathname);
 
-const social = new URL('/assets/social.jpg?v=1', Astro.canonicalURL.origin).toString();
+const social = new URL('/assets/social.jpg', Astro.canonicalURL.origin).toString();
 
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="/styles/fonts.css" />
-<link rel="stylesheet" href="/styles/fonts-italic.css" />
 <link rel="stylesheet" href="/styles/ff9homm3.css" />
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 <link rel="canonical" href={permalink} />
-{fixPathname &&
-<script is:inline>
-	history.replaceState(null, undefined, document.querySelector('[rel="canonical"]').getAttribute('href'))
-</script>}
-{fixPathname && <noscript>
-	<meta http-equiv="refresh" content={`0;url=${fixPathname}`} />
-</noscript>}
+{fixPathname && <>
+	<script is:inline>!function(url) {
+		history.replaceState(null, undefined, url.pathname)
+		}(new URL(document.querySelector('[rel="canonical"]').getAttribute('href')))</script>
+	<noscript>
+		<meta http-equiv="refresh" content={`0;url=${fixPathname}`} />
+	</noscript>
+</>}
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={permalink} />
@@ -56,6 +55,6 @@ const social = new URL('/assets/social.jpg?v=1', Astro.canonicalURL.origin).toSt
 <meta name="application-name" content="Merri.net" />
 <meta name="msapplication-TileColor" content="#da532c" />
 <meta name="theme-color" content="#ffffff" />
-<!-- I hate Apple -->
+<!-- Annoyances -->
 <meta name="format-detection" content="telephone=no" />
 <!-- -->

@@ -8,6 +8,13 @@ export interface Props {
 		author?: string
 		alt?: string
 		devUrl?: string
+		coverImage?: {
+			src: string
+			width: number
+			height: number
+			alt?: string
+			title?: string
+		}
 	};
 }
 
@@ -19,7 +26,7 @@ import PageHeader from '$/components/PageHeader.astro';
 import { getPermalink } from '$/lib/getPermalink';
 
 const { content } = Astro.props;
-const { title, description, publishDate, lastUpdateDate, author, alt, devUrl } = content;
+const { title, description, publishDate, lastUpdateDate, author, alt, devUrl, coverImage } = content;
 
 const published = new Date(publishDate);
 const lastUpdated = lastUpdateDate && new Date(lastUpdateDate);
@@ -37,6 +44,59 @@ const permalink = getPermalink(Astro.canonicalURL, fixPathname)
 <body>
 	<PageHeader />
 	<main id="main">
+		{coverImage && <>
+			<img class="cover-image" aria-hidden="true" alt={coverImage.alt || '' } src={coverImage.src}
+				height={coverImage.height} width={coverImage.width} role="presentation" title={coverImage.title} />
+			<style>
+				.cover-image {
+					box-sizing: content-box;
+					margin: -1rem calc(var(--margin-offset) * -1);
+					max-width: unset;
+					width: calc(100% + var(--margin-offset) * 2);
+				}
+
+				@media (min-width: 55em) and (max-width: 99.9375em) {
+					.cover-image {
+						aspect-ratio: 2.5 / 1;
+						object-fit: cover;
+						margin-block: 0;
+					}
+				}
+
+				@media (min-width: 100em) {
+					.cover-image {
+						margin: 0;
+						left: 0;
+						-webkit-mask-image: var(--mask);
+						mask-image: var(--mask);
+						max-width: 100%;
+						position: fixed;
+						top: 0;
+						width: 100%;
+						z-index: -1;
+					}
+
+					@supports (mix-blend-mode: soft-light) {
+						.cover-image {
+							--mask: linear-gradient(black, transparent);
+							mix-blend-mode: soft-light;
+						}
+					}
+
+					@supports not (mix-blend-mode: soft-light) {
+						.cover-image {
+							--mask: linear-gradient(rgba(0, 0, 0, 0.375), transparent);
+						}
+					}
+				}
+
+				@media (prefers-reduced-motion) and (min-width: 100em) {
+					.cover-image {
+						position: absolute;
+					}
+				}
+			</style>
+		</>}
 		<Heroes title={title} published={published} lastUpdated={lastUpdated} author={author}>
 			<slot />
 			{devUrl && <>

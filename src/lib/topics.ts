@@ -5,7 +5,13 @@ interface Topic {
 	posts: any[]
 }
 
-const topics = [
+const topics: Topic[] = [
+	{
+		slug: 'tech',
+		title: 'Technology',
+		description: 'I follow the progress of computers and computing, and also like take look into to the past.',
+		posts: []
+	},
 	{
 		slug: 'programming',
 		title: 'Programming',

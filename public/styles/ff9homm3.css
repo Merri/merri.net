@@ -1,11 +1,33 @@
+@font-face {
+	font-display: swap;
+	font-family: merri-gaduki;
+	src: url('merri-gaduki.woff2') format('woff2'), url('merri-gaduki.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: alexandria;
+	src: local('Alexandria'), local('Alexandria Regular'), local('Alexandria-Regular'),
+		url('alexandria.woff2') format('woff2'), url('alexandria.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
 :root {
 	--font-pixel: merri-gaduki, ui-sans-serif, Helvetica, sans-serif;
 	--font-monospace: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 	--font-sans-serif: alexandria, system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Ubuntu', 'Cantarell', 'Noto Sans',
 		sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-	--font-serif: cheap-palatino-ripoff, ui-serif, serif;
+	/* https://css-tricks.com/snippets/css/font-stacks/ */
+	--font-serif: 'Palatino Linotype', Palatino, Palladio, 'URW Palladio L', 'Book Antiqua', Baskerville,
+		'Bookman Old Style', 'Bitstream Charter', 'Nimbus Roman No9 L', Garamond, 'Apple Garamond',
+		'ITC Garamond Narrow', 'New Century Schoolbook', 'Century Schoolbook', 'Century Schoolbook L', Georgia, ui-serif,
+		serif;
 	--main-content-width: 60rem;
 	--accent-color: #fae496;
+	--margin-offset: 0rem;
 }
 
 html {
@@ -24,6 +46,7 @@ body {
 	flex-direction: column;
 	font-family: var(--font-serif);
 	height: 100%;
+	margin: 0 var(--margin-offset);
 	min-height: 100vh;
 }
 
@@ -350,6 +373,7 @@ blockquote:not([class])::before {
 	line-height: 1.5;
 	margin: 16px auto;
 	max-width: var(--main-content-width);
+	position: relative;
 	text-shadow: 0.125em 0.125em 0 rgba(0, 0, 0, 0.5);
 	width: 100%;
 }
@@ -466,14 +490,14 @@ blockquote:not([class])::before {
 }
 
 @media (min-width: 55em) and (max-width: 64.9375em) {
-	body {
-		margin: 0 3em;
+	:root {
+		--margin-offset: 3rem;
 	}
 }
 
 @media (min-width: 65em) {
-	body {
-		margin: 0 6em;
+	:root {
+		--margin-offset: 6rem;
 	}
 	.flex {
 		align-items: center;

@@ -5,6 +5,13 @@ lastUpdateDate: '2022-05-28'
 layout: '$layouts/BlogPost.astro'
 author: 'Vesa Piittinen'
 description: 'In case you need to know who is this Merri person'
+coverImage: {
+	src: '/assets/art/what-is-this-happiness_by_sasumata-jirou.jpg',
+	width: 3200,
+	height: 1800,
+	alt: 'Final Fantasy IX by Sasumata Jirou',
+	title: 'Source: https://www.pixiv.net/en/artworks/82810942',
+}
 ---
 
 Hello.

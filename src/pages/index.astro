@@ -8,14 +8,27 @@ import Heroes from '$/components/Heroes.astro';
 import type { BlogPost } from '$/types/blogPost';
 
 const allPosts = await Astro.glob<BlogPost>('./topics/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*.md');
-allPosts.sort((a, b) => +new Date(b.frontmatter.lastUpdateDate || b.frontmatter.publishDate) - +new Date(a.frontmatter.lastUpdateDate || a.frontmatter.publishDate));
+
+const newestPosts: typeof allPosts = []
+const changedPosts: typeof allPosts = []
+
+allPosts.forEach(post => {
+	if (post.frontmatter.lastUpdateDate == null) {
+		newestPosts.push(post)
+	} else {
+		changedPosts.push(post)
+	}
+})
+
+newestPosts.sort((a, b) => +new Date(b.frontmatter.publishDate) - +new Date(a.frontmatter.publishDate));
+changedPosts.sort((a, b) => +new Date(b.frontmatter.lastUpdateDate!) - +new Date(a.frontmatter.lastUpdateDate!));
 ---
 
 <html lang="en">
 
 <head>
-	<BaseHead title="Merri.net"
-		description="Welcome to the English speaking homepage of Vesa Piittinen! Find out who is this autistic nerd with a neurodivergent mastermind." />
+	<BaseHead title="Merri, the Introverted Autistic Mastermind"
+		description="Welcome to the English speaking homepage of Vesa Piittinen! Find out who is this nerd with a neurodivergent mind ahead of their time." />
 </head>
 
 <body>
@@ -27,11 +40,36 @@ allPosts.sort((a, b) => +new Date(b.frontmatter.lastUpdateDate || b.frontmatter.
 				<abbr title="Heroes of Might and Magic III">HoMM3</abbr> inspired site. I write on various topics
 				that are of interest to me.<br />Things such as programming or games.
 			</p>
-			<p><strong>TIP!</strong> Annoying sound effects? Turn them off from the speaker icon in the top menu bar.
+			<p><strong>TIP!</strong> Annoying sound effects? Hit the speaker icon at top left in the menu bar above to mute!
 			</p>
 			<hr />
+			<h2>Newest posts</h2>
 			<ol>
-				{allPosts.map((content) => {
+				{newestPosts.slice(0, 3).map((content) => {
+				const url = content.url?.replace(/\/index$/, '');
+				const date = new Date(content.frontmatter.publishDate);
+				const updateDate = content.frontmatter.lastUpdateDate && new Date(content.frontmatter.lastUpdateDate);
+				const published = format(date, 'PPP');
+				const ymd = format(date, 'yyyy-MM-dd');
+
+				return (
+				<li>
+					<a href={url}>
+						<div class="ff9-dialog">
+							<h2>{content.frontmatter.title}</h2>
+							<small><time datetime={ymd}>{published}</time>{updateDate && <> (updated on <time
+										datetime={format(updateDate, 'yyyy-MM-dd' )}>{format(updateDate, 'PPP')}</time>)
+								</>}</small>
+							{content.frontmatter.description}
+						</div>
+					</a>
+				</li>
+				)
+				})}
+			</ol>
+			<h2>Recently changed posts</h2>
+			<ol>
+				{changedPosts.slice(0, 3).map((content) => {
 				const url = content.url?.replace(/\/index$/, '');
 				const date = new Date(content.frontmatter.publishDate);
 				const updateDate = content.frontmatter.lastUpdateDate && new Date(content.frontmatter.lastUpdateDate);
