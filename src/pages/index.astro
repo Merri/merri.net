@@ -1,18 +1,18 @@
 ---
-import { format } from 'date-fns';
+import { format } from 'date-fns'
 
-import BaseHead from '$/components/BaseHead.astro';
-import PageFooter from '$/components/PageFooter.astro';
-import PageHeader from '$/components/PageHeader.astro';
-import Heroes from '$/components/Heroes.astro';
-import type { BlogPost } from '$/types/blogPost';
+import BaseHead from '$/components/BaseHead.astro'
+import PageFooter from '$/components/PageFooter.astro'
+import PageHeader from '$/components/PageHeader.astro'
+import Heroes from '$/components/Heroes.astro'
+import type { BlogPost } from '$/types/blogPost'
 
-const allPosts = await Astro.glob<BlogPost>('./topics/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*.md');
+const allPosts = await Astro.glob<BlogPost>('./topics/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*.md')
 
 const newestPosts: typeof allPosts = []
 const changedPosts: typeof allPosts = []
 
-allPosts.forEach(post => {
+allPosts.forEach((post) => {
 	if (post.frontmatter.lastUpdateDate == null) {
 		newestPosts.push(post)
 	} else {
@@ -20,101 +20,137 @@ allPosts.forEach(post => {
 	}
 })
 
-newestPosts.sort((a, b) => +new Date(b.frontmatter.publishDate) - +new Date(a.frontmatter.publishDate));
-changedPosts.sort((a, b) => +new Date(b.frontmatter.lastUpdateDate!) - +new Date(a.frontmatter.lastUpdateDate!));
+newestPosts.sort((a, b) => +new Date(b.frontmatter.publishDate) - +new Date(a.frontmatter.publishDate))
+changedPosts.sort((a, b) => +new Date(b.frontmatter.lastUpdateDate!) - +new Date(a.frontmatter.lastUpdateDate!))
 ---
 
 <html lang="en">
+	<head>
+		<BaseHead
+			title="Merri, the Introverted Autistic Mastermind"
+			description="Welcome to the English speaking homepage of Vesa Piittinen! Find out who is this nerd with a neurodivergent mind ahead of their time."
+		/>
+	</head>
 
-<head>
-	<BaseHead title="Merri, the Introverted Autistic Mastermind"
-		description="Welcome to the English speaking homepage of Vesa Piittinen! Find out who is this nerd with a neurodivergent mind ahead of their time." />
-</head>
+	<body>
+		<PageHeader />
+		<main id="main">
+			<Heroes title="Merri.net">
+				<p>
+					Welcome to my <abbr title="Final Fantasy IX">FF9</abbr> &amp;
+					<abbr title="Heroes of Might and Magic III">HoMM3</abbr> inspired site. This site is on a period of transition.
+					When I last updated I had a rather grim period of my life going on, and trying to make anything at such
+					times do not grant desirable results.
+				</p>
+				<p>
+					As things are right now <a href="https://vesa.piittinen.name">my homepage</a> may, or may not, serve
+					you better.
+				</p>
+				<p>
+					<strong>TIP!</strong> Annoying sound effects? Hit the speaker icon at top left in the menu bar above
+					to mute!
+				</p>
+				<hr />
+				<h2>Newest posts</h2>
+				<ol role="list">
+					{
+						newestPosts.slice(0, 3).map((content) => {
+							const url = content.url?.replace(/\/index$/, '')
+							const date = new Date(content.frontmatter.publishDate)
+							const updateDate =
+								content.frontmatter.lastUpdateDate && new Date(content.frontmatter.lastUpdateDate)
+							const published = format(date, 'PPP')
+							const ymd = format(date, 'yyyy-MM-dd')
 
-<body>
-	<PageHeader />
-	<main id="main">
-		<Heroes title="Merri's Blog">
-			<p>
-				Welcome to my <abbr title="Final Fantasy IX">FF9</abbr> &amp;
-				<abbr title="Heroes of Might and Magic III">HoMM3</abbr> inspired site. I write on various topics
-				that are of interest to me.<br />Things such as programming or games.
-			</p>
-			<p><strong>TIP!</strong> Annoying sound effects? Hit the speaker icon at top left in the menu bar above to mute!
-			</p>
-			<hr />
-			<h2>Newest posts</h2>
-			<ol>
-				{newestPosts.slice(0, 3).map((content) => {
-				const url = content.url?.replace(/\/index$/, '');
-				const date = new Date(content.frontmatter.publishDate);
-				const updateDate = content.frontmatter.lastUpdateDate && new Date(content.frontmatter.lastUpdateDate);
-				const published = format(date, 'PPP');
-				const ymd = format(date, 'yyyy-MM-dd');
+							return (
+								<li>
+									<a href={url}>
+										<div class="ff9-dialog">
+											<h2>{content.frontmatter.title}</h2>
+											<small>
+												<time datetime={ymd}>{published}</time>
+												{updateDate && (
+													<>
+														{' '}
+														(updated on{' '}
+														<time datetime={format(updateDate, 'yyyy-MM-dd')}>
+															{format(updateDate, 'PPP')}
+														</time>
+														)
+													</>
+												)}
+											</small>
+											{content.frontmatter.description}
+										</div>
+									</a>
+								</li>
+							)
+						})
+					}
+				</ol>
+				<h2>Recently changed posts</h2>
+				<ol role="list">
+					{
+						changedPosts.slice(0, 3).map((content) => {
+							const url = content.url?.replace(/\/index$/, '')
+							const date = new Date(content.frontmatter.publishDate)
+							const updateDate =
+								content.frontmatter.lastUpdateDate && new Date(content.frontmatter.lastUpdateDate)
+							const published = format(date, 'PPP')
+							const ymd = format(date, 'yyyy-MM-dd')
 
-				return (
-				<li>
-					<a href={url}>
-						<div class="ff9-dialog">
-							<h2>{content.frontmatter.title}</h2>
-							<small><time datetime={ymd}>{published}</time>{updateDate && <> (updated on <time
-										datetime={format(updateDate, 'yyyy-MM-dd' )}>{format(updateDate, 'PPP')}</time>)
-								</>}</small>
-							{content.frontmatter.description}
-						</div>
-					</a>
-				</li>
-				)
-				})}
-			</ol>
-			<h2>Recently changed posts</h2>
-			<ol>
-				{changedPosts.slice(0, 3).map((content) => {
-				const url = content.url?.replace(/\/index$/, '');
-				const date = new Date(content.frontmatter.publishDate);
-				const updateDate = content.frontmatter.lastUpdateDate && new Date(content.frontmatter.lastUpdateDate);
-				const published = format(date, 'PPP');
-				const ymd = format(date, 'yyyy-MM-dd');
+							return (
+								<li>
+									<a href={url}>
+										<div class="ff9-dialog">
+											<h2>{content.frontmatter.title}</h2>
+											<small>
+												<time datetime={ymd}>{published}</time>
+												{updateDate && (
+													<>
+														{' '}
+														(updated on{' '}
+														<time datetime={format(updateDate, 'yyyy-MM-dd')}>
+															{format(updateDate, 'PPP')}
+														</time>
+														)
+													</>
+												)}
+											</small>
+											{content.frontmatter.description}
+										</div>
+									</a>
+								</li>
+							)
+						})
+					}
+				</ol>
+			</Heroes>
+			<iframe
+				width="560"
+				height="315"
+				src="https://www.youtube-nocookie.com/embed/fW3tOmLgd3?list=PLxAX2CW8tcpqI6GBc5hQX1KBX4fRcGh1U"
+				title="YouTube video player"
+				frameborder="0"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen></iframe>
+			<style>
+				@import './topics.css';
 
-				return (
-				<li>
-					<a href={url}>
-						<div class="ff9-dialog">
-							<h2>{content.frontmatter.title}</h2>
-							<small><time datetime={ymd}>{published}</time>{updateDate && <> (updated on <time
-										datetime={format(updateDate, 'yyyy-MM-dd' )}>{format(updateDate, 'PPP')}</time>)
-								</>}</small>
-							{content.frontmatter.description}
-						</div>
-					</a>
-				</li>
-				)
-				})}
-			</ol>
-		</Heroes>
-		<iframe width="560" height="315"
-			src="https://www.youtube-nocookie.com/embed/fW3tOmLgd3?list=PLxAX2CW8tcpqI6GBc5hQX1KBX4fRcGh1U"
-			title="YouTube video player" frameborder="0"
-			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-			allowfullscreen></iframe>
-		<style>
-			@import './topics.css';
+				iframe {
+					aspect-ratio: 560 / 315;
+					display: block;
+					height: auto;
+					margin: 0 auto;
+					max-width: var(--main-content-width);
+					width: 100%;
+				}
 
-			iframe {
-				aspect-ratio: 560 / 315;
-				display: block;
-				height: auto;
-				margin: 0 auto;
-				max-width: var(--main-content-width);
-				width: 100%;
-			}
-
-			abbr {
-				text-decoration: none;
-			}
-		</style>
-	</main>
-	<PageFooter />
-</body>
-
+				abbr {
+					text-decoration: none;
+				}
+			</style>
+		</main>
+		<PageFooter />
+	</body>
 </html>

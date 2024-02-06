@@ -4,9 +4,11 @@
 
 <footer id="footer">
 	<nav aria-labelledby="overly-confident">
-		<strong id="overly-confident">Not getting enough of me?</strong>
+		<strong id="overly-confident">But wait, there's more&hellip;</strong>
 		<br />
 		<span style="color:transparent">
+			<a href="https://vesa.piittinen.name" rel="me">Homepage</a>
+			|
 			<a href="https://dev.to/merri" hreflang="en" rel="me">DEV</a>
 			|
 			<a href="https://github.com/Merri" hreflang="en" rel="me">GitHub</a>
@@ -15,18 +17,14 @@
 			|
 			<a href="https://mastodon.social/web/@MerriNet" hreflang="en" rel="me">Mastodon</a>
 			|
-			<a href="https://twitter.com/merrinen" hreflang="en" rel="me">Twitter</a>
-			|
-			<span aria-label="Other websites" role="img" style="color:white">🌍</span>
+			<span aria-label="Other websites" role="img" style="color: white">🌍</span>
 			|
 			<a href="https://settlers2.net" hreflang="en">Settlers II.net</a>
 		</span>
 		<br />
 		<br />
 		<span lang="fi" style="color:transparent">
-			<span aria-label="Suomeksi" role="img" style="color:white">🇫🇮</span>
-			|
-			<a href="https://vesa.piittinen.name" hreflang="fi" rel="me">Kotisivu</a>
+			<span aria-label="Suomeksi" role="img" style="color: white">🇫🇮</span>
 			|
 			<a href="https://kontu.wiki" hreflang="fi">Kontuwiki</a>
 			|
@@ -36,15 +34,21 @@
 	<small>Merri.net 2003 &ndash; {new Date().getUTCFullYear()} by Vesa Piittinen</small>
 </footer>
 <audio id="sfx-select" preload="auto">
-	<source src="/sfx/select.mp3" type="audio/mpeg">
+	<source src="/sfx/select.mp3" type="audio/mpeg" />
 </audio>
 <audio id="sfx-equip" preload="auto">
-	<source src="/sfx/switch.mp3" type="audio/mpeg">
+	<source src="/sfx/switch.mp3" type="audio/mpeg" />
 </audio>
 <!-- Yes this is far more backwards compatible than the modern web needs -->
 <script is:inline>
-	!function () {
-		var hasLS = !function (l) { try { (l = localStorage).removeItem(l._ = '_') } catch (e) { return 1 } }()
+	!(function () {
+		var hasLS = !(function (l) {
+			try {
+				;(l = localStorage).removeItem((l._ = '_'))
+			} catch (e) {
+				return 1
+			}
+		})()
 		var noSound = hasLS ? localStorage.noSound != null : false
 		function updateSound() {
 			document.documentElement.setAttribute('data-sound', noSound ? 'false' : 'true')
@@ -60,12 +64,22 @@
 		var soundOff = document.querySelector('#toggle-volume-off a')
 		var sfx = {
 			equip: [equip, equip.cloneNode(true), equip.cloneNode(true), equip.cloneNode(true), equip.cloneNode(true)],
-			select: [select, select.cloneNode(true), select.cloneNode(true), select.cloneNode(true), select.cloneNode(true), select.cloneNode(true), select.cloneNode(true)]
+			select: [
+				select,
+				select.cloneNode(true),
+				select.cloneNode(true),
+				select.cloneNode(true),
+				select.cloneNode(true),
+				select.cloneNode(true),
+				select.cloneNode(true),
+			],
 		}
 		function focusIn(event) {
 			if (event.defaultPrevented || noSound) return
 			var link = event.target
-			while (link && link.nodeName !== 'A') { link = link.parentNode }
+			while (link && link.nodeName !== 'A') {
+				link = link.parentNode
+			}
 			if (!link) return
 			sfx.select[0].play()
 			sfx.select.push(sfx.select.shift())
@@ -73,7 +87,9 @@
 		function mouseOver(event) {
 			if (event.defaultPrevented || noSound) return
 			var link = event.target
-			while (link && link.nodeName !== 'A') { link = link.parentNode }
+			while (link && link.nodeName !== 'A') {
+				link = link.parentNode
+			}
 			if (!link || document.activeElement === link) return
 			if (document.activeElement.nodeName === 'A') document.activeElement.blur()
 			var timeout = setTimeout(() => {
@@ -89,11 +105,15 @@
 		document.body.addEventListener('click', function (event) {
 			if (event.defaultPrevented || noSound) return
 			var link = event.target
-			while (link && link.nodeName !== 'A') { link = link.parentNode }
+			while (link && link.nodeName !== 'A') {
+				link = link.parentNode
+			}
 			if (!link) return
 			if (link.getAttribute('href').slice(0, 1) !== '#') {
 				event.preventDefault()
-				const go = () => { location = link.href }
+				const go = () => {
+					location = link.href
+				}
 				sfx.equip[0].onended = go
 				setTimeout(go, 400)
 				const preload = document.createElement('link')
@@ -106,35 +126,37 @@
 		})
 		document.body.addEventListener('focusin', focusIn)
 		document.body.addEventListener('mouseover', mouseOver)
-		if (soundOn) soundOn.onclick = function (event) {
-			noSound = false
-			updateSound()
-			event.preventDefault()
-		}
-		if (soundOff) soundOff.onclick = function (event) {
-			noSound = true
-			updateSound()
-			event.preventDefault()
-		}
-	}()
+		if (soundOn)
+			soundOn.onclick = function (event) {
+				noSound = false
+				updateSound()
+				event.preventDefault()
+			}
+		if (soundOff)
+			soundOff.onclick = function (event) {
+				noSound = true
+				updateSound()
+				event.preventDefault()
+			}
+	})()
 </script>
 <!-- Centered pixel font hack: fight against blurry pixel fonts  -->
 <script is:inline>
-	!function () {
+	!(function () {
 		const html = document.documentElement
-		const resizeObserver = new ResizeObserver(entries => {
+		const resizeObserver = new ResizeObserver((entries) => {
 			for (let entry of entries) {
 				// Firefox implements `contentBoxSize` as a single content rect, rather than an array
-				const width = entry.contentBoxSize ? [].concat(entry.contentBoxSize)[0].inlineSize : entry.contentRect.width
+				const width = entry.contentBoxSize
+					? [].concat(entry.contentBoxSize)[0].inlineSize
+					: entry.contentRect.width
 				if (width & 1) {
 					document.body.style.paddingRight = '1px'
 				} else {
 					document.body.style.paddingRight = ''
 				}
 			}
-		});
+		})
 		resizeObserver.observe(html)
-	}()
+	})()
 </script>
-<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" /></noscript>

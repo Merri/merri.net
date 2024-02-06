@@ -19,7 +19,6 @@ export interface Props {
 }
 
 import BaseHead from '$/components/BaseHead.astro';
-import Disqus from '$/components/Disqus.astro';
 import Heroes from '$/components/Heroes.astro';
 import PageFooter from '$/components/PageFooter.astro';
 import PageHeader from '$/components/PageHeader.astro';
@@ -31,8 +30,8 @@ const { title, description, publishDate, lastUpdateDate, author, alt, devUrl, co
 const published = new Date(publishDate);
 const lastUpdated = lastUpdateDate && new Date(lastUpdateDate);
 
-const fixPathname = (Astro.canonicalURL.pathname === content.redirectPathnameFrom && content.redirectPathnameTo) || null
-const permalink = getPermalink(Astro.canonicalURL, fixPathname)
+const fixPathname = (Astro.url.pathname === content.redirectPathnameFrom && content.redirectPathnameTo) || null
+const permalink = getPermalink(Astro.url, fixPathname)
 ---
 
 <html lang={ content.lang || 'en' }>
@@ -123,7 +122,6 @@ const permalink = getPermalink(Astro.canonicalURL, fixPathname)
 	<nav id="post-main">
 		<p><a href="/"><span aria-hidden="true">⬅️</span> Go to homepage</a></p>
 	</nav>
-	<Disqus permalink={permalink} />
 	<PageFooter />
 </body>
 

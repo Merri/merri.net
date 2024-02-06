@@ -1,20 +1,18 @@
 ---
 export interface Props {
-	title: string;
-	description: string;
-	fixPathname?: string;
+	title: string
+	description: string
+	fixPathname?: string
 }
 
-import 'sanitize.css';
-import 'sanitize.css/typography.css';
+import 'alku'
 
-import { getPermalink } from '$/lib/getPermalink';
+import { getPermalink } from '$/lib/getPermalink'
 
-const { title, description, fixPathname } = Astro.props;
-const permalink = getPermalink(Astro.canonicalURL, fixPathname);
+const { title, description, fixPathname } = Astro.props
+const permalink = getPermalink(Astro.url, fixPathname)
 
-const social = new URL('/assets/social.jpg', Astro.canonicalURL.origin).toString();
-
+const social = new URL('/assets/social.jpg', Astro.url).toString()
 ---
 
 <meta charset="utf-8" />
@@ -25,14 +23,19 @@ const social = new URL('/assets/social.jpg', Astro.canonicalURL.origin).toString
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 <link rel="canonical" href={permalink} />
-{fixPathname && <>
-	<script is:inline>!function(url) {
-		history.replaceState(null, undefined, url.pathname)
-		}(new URL(document.querySelector('[rel="canonical"]').getAttribute('href')))</script>
-	<noscript>
-		<meta http-equiv="refresh" content={`0;url=${fixPathname}`} />
-	</noscript>
-</>}
+{
+	fixPathname && (
+		<>
+			<script is:inline>
+				!function(url) {history.replaceState(null, undefined, url.pathname)}(new
+				URL(document.querySelector('[rel="canonical"]').getAttribute('href')))
+			</script>
+			<noscript>
+				<meta http-equiv="refresh" content={`0;url=${fixPathname}`} />
+			</noscript>
+		</>
+	)
+}
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={permalink} />
