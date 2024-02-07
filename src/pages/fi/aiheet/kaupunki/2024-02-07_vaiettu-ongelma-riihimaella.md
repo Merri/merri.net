@@ -21,6 +21,7 @@ elämästä kaupunkien katutasolla yllättävän paljon miellyttävämpää kun 
 
 <figcaption class="ff9-dialog" style="font-size: 18px;">
 	<p>Temppelikadulla oli ennen lukuisia vanhoja puita.</p>
+	<p>Myönnän tosin etten ole selvittänyt ovatko ne tulossa takaisin vai ei.</p>
 </figcaption>
 </figure>
 
