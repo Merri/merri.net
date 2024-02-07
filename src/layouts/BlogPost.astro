@@ -34,7 +34,7 @@ const fixPathname = (Astro.url.pathname === content.redirectPathnameFrom && cont
 const permalink = getPermalink(Astro.url, fixPathname)
 ---
 
-<html lang={ content.lang || 'en' }>
+<html lang={ Astro.currentLocale || 'en' }>
 
 <head>
 	<BaseHead title={title} description={description} fixPathname={fixPathname} />
@@ -96,10 +96,10 @@ const permalink = getPermalink(Astro.url, fixPathname)
 				}
 			</style>
 		</>}
-		<Heroes title={title} published={published} lastUpdated={lastUpdated} author={author}>
+		<Heroes title={title} published={published} lastUpdated={lastUpdated || undefined} author={author}>
 			<slot />
 			{devUrl && <>
-				<div class="ff9-dialog">
+				<div lang="en" class="ff9-dialog">
 					This post has been cross-posted to <a class="dev-link" href={devUrl}>DEV</a>.<br />Your comments
 					might reach a bigger audience there!
 				</div>
@@ -119,7 +119,7 @@ const permalink = getPermalink(Astro.url, fixPathname)
 			</>}
 		</Heroes>
 	</main>
-	<nav id="post-main">
+	<nav lang="en" id="post-main">
 		<p><a href="/"><span aria-hidden="true">⬅️</span> Go to homepage</a></p>
 	</nav>
 	<PageFooter />

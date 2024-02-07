@@ -6,29 +6,46 @@ export interface Props {
 	author?: string
 }
 
-import { format } from 'date-fns';
+import { format } from 'date-fns'
+import { fi } from 'date-fns/locale'
 
-const { title, published, lastUpdated, author } = Astro.props;
+const { title, published, lastUpdated, author } = Astro.props
 
-const hasMeta = published != null || author != null || lastUpdated != null;
+const hasMeta = published != null || author != null || lastUpdated != null
 
+const isFi = Astro.currentLocale === 'fi'
+const options = isFi ? { locale: fi } : undefined
+const by = isFi ? '-' : 'by'
+const lastUpdatedOn = isFi ? 'viimeksi päivitetty' : 'last updated on'
 ---
 
 <article class="homm3-dialog">
 	<header class="homm3-dialog-header">
 		<h1>{title}</h1>
-		{hasMeta && (
-		<>
-			<div class="dates">
-				{published != null && <time datetime={published.toISOString().slice(0, 10)}>{format(published,
-					'PPPP')}</time>}
-				{author != null && <span>by {author}</span>}
-				{lastUpdated != null && <time datetime={lastUpdated.toISOString().slice(0, 10)}>(last updated on
-					{format(lastUpdated, 'PPP')})</time>}
-			</div>
-			<hr />
-		</>
-		)}
+		{
+			hasMeta && (
+				<>
+					<div class="dates">
+						{published != null && (
+							<time datetime={published.toISOString().slice(0, 10)}>
+								{format(published, 'PPPP', options)}
+							</time>
+						)}
+						{author != null && (
+							<span>
+								{by} {author}
+							</span>
+						)}
+						{lastUpdated != null && (
+							<time datetime={lastUpdated.toISOString().slice(0, 10)}>
+								({lastUpdatedOn} {format(lastUpdated, 'PPP', options)})
+							</time>
+						)}
+					</div>
+					<hr />
+				</>
+			)
+		}
 	</header>
 	<section class="homm3-dialog-content">
 		<slot />
@@ -45,7 +62,7 @@ const hasMeta = published != null || author != null || lastUpdated != null;
 		line-height: 2;
 	}
 
-	.dates>time:not(:first-child) {
+	.dates > time:not(:first-child) {
 		color: #c7c7c7;
 	}
 </style>
