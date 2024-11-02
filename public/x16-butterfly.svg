@@ -1,0 +1,70 @@
+<svg id="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+	<defs>
+		<linearGradient id="Butterfly" x1="0" x2="0" y1="0" y2="1" gradientUnits="objectBoundingBox">
+			<stop offset="0%" stop-color="#E75DA1" />
+			<stop offset="3.333%" stop-color="#E75DA1" />
+			<stop offset="3.333%" stop-color="#D070AD" />
+			<stop offset="6.666%" stop-color="#D070AD" />
+			<stop offset="6.666%" stop-color="#C076B1" />
+			<stop offset="10%" stop-color="#C076B1" />
+			<stop offset="10%" stop-color="#A274B4" />
+			<stop offset="13.333%" stop-color="#A274B4" />
+			<stop offset="13.333%" stop-color="#8771B2" />
+			<stop offset="16.666%" stop-color="#8771B2" />
+			<stop offset="16.666%" stop-color="#6C6FB4" />
+			<stop offset="20%" stop-color="#6C6FB4" />
+			<stop offset="20%" stop-color="#5270B8" />
+			<stop offset="23.333%" stop-color="#5270B8" />
+			<stop offset="23.333%" stop-color="#4F7CBF" />
+			<stop offset="26.666%" stop-color="#4F7CBF" />
+			<stop offset="26.666%" stop-color="#5292CF" />
+			<stop offset="30%" stop-color="#5292CF" />
+			<stop offset="30%" stop-color="#4EA7DF" />
+			<stop offset="33.333%" stop-color="#4EA7DF" />
+			<stop offset="33.333%" stop-color="#47BBEA" />
+			<stop offset="36.666%" stop-color="#47BBEA" />
+			<stop offset="36.666%" stop-color="#4CC8EC" />
+			<stop offset="40%" stop-color="#4CC8EC" />
+			<stop offset="40%" stop-color="#5DC8E2" />
+			<stop offset="43.333%" stop-color="#5DC8E2" />
+			<stop offset="43.333%" stop-color="#5EC7CB" />
+			<stop offset="46.666%" stop-color="#5EC7CB" />
+			<stop offset="46.666%" stop-color="#67C5AB" />
+			<stop offset="50%" stop-color="#67C5AB" />
+			<stop offset="50%" stop-color="#71C497" />
+			<stop offset="53.333%" stop-color="#71C497" />
+			<stop offset="53.333%" stop-color="#7DC573" />
+			<stop offset="56.666%" stop-color="#7DC573" />
+			<stop offset="56.666%" stop-color="#8CC64B" />
+			<stop offset="60%" stop-color="#8CC64B" />
+			<stop offset="60%" stop-color="#9DC73F" />
+			<stop offset="63.333%" stop-color="#9DC73F" />
+			<stop offset="63.333%" stop-color="#B3C53B" />
+			<stop offset="66.666%" stop-color="#B3C53B" />
+			<stop offset="66.666%" stop-color="#C6C33E" />
+			<stop offset="70%" stop-color="#C6C33E" />
+			<stop offset="70%" stop-color="#D6C23D" />
+			<stop offset="73.333%" stop-color="#D6C23D" />
+			<stop offset="73.333%" stop-color="#EDBD3F" />
+			<stop offset="76.666%" stop-color="#EDBD3F" />
+			<stop offset="76.666%" stop-color="#FAB840" />
+			<stop offset="80%" stop-color="#FAB840" />
+			<stop offset="80%" stop-color="#FAA141" />
+			<stop offset="83.333%" stop-color="#FAA141" />
+			<stop offset="83.333%" stop-color="#F5823F" />
+			<stop offset="86.666%" stop-color="#F5823F" />
+			<stop offset="86.666%" stop-color="#F36C3C" />
+			<stop offset="90%" stop-color="#F36C3C" />
+			<stop offset="90%" stop-color="#F0503A" />
+			<stop offset="93.333%" stop-color="#F0503A" />
+			<stop offset="93.333%" stop-color="#EF413A" />
+			<stop offset="96.666%" stop-color="#EF413A" />
+			<stop offset="96.666%" stop-color="#EF3D39" />
+			<stop offset="100%" stop-color="#EF3D39" />
+		</linearGradient>
+	</defs>
+    <g fill="url(#Butterfly)">
+		<path d="M2.1,3.5 7.2,20.3 18.1,23.4 18.1,27.4 9.1,30.4 6.1,44.4 21.7,30.4 21.7,20.4Z" />
+		<path d="M45.9,3.5 40.8,20.3 29.9,23.4 29.9,27.4 38.9,30.4 41.9,44.4 26.3,30.4 26.3,20.4Z" />
+	</g>
+</svg>
