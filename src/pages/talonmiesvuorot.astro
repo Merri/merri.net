@@ -50,6 +50,12 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 				margin: 1rem 0 2rem;
 			}
 
+			.columns {
+				display: grid;
+				gap: 2rem;
+				grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+			}
+
 			.viikkovuoro {
 				margin: 0;
 			}
@@ -215,23 +221,30 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 					<span id="next-year" hidden>Seuraava vuosi</span>
 				</button>
 			</header>
-			<section id="viikkovuorot"></section>
-			<h2 data-text="heading5">Tehtävät</h2>
-			<ul>
-				<li>Liputus</li>
-				<li>Lumityöt / nurmikoiden leikkaus</li>
-				<li>Liukkauden esto</li>
-				<li>Sepelin ja suolan hankinta</li>
-				<li>Polttoaine lumilinkoon / ruohonleikkuriin</li>
-				<li>Yleiset siistimistyöt</li>
-				<li>Vahingoista tai vaurioista ilmoittaminen</li>
-				<li>Hankintatarpeista ilmoittaminen</li>
-			</ul>
-			<p>
-				Ilmoitukset hallitukselle tai isännöitsijälle. Jos vuoron hoitamiseen on este sovi vuoron vaihtamisesta
-				päikseen tai tuurauksesta.
-			</p>
-			<p>Auttaa saa aina!</p>
+			<div class="columns">
+				<section>
+					<h2 data-text="heading5">Viikot</h2>
+					<div id="viikkovuorot"></div>
+				</section>
+				<section>
+					<h2 data-text="heading5">Tehtävät</h2>
+					<ul>
+						<li>Liputus</li>
+						<li>Lumityöt / nurmikoiden leikkaus</li>
+						<li>Liukkauden esto</li>
+						<li>Sepelin ja suolan hankinta</li>
+						<li>Polttoaine lumilinkoon / ruohonleikkuriin</li>
+						<li>Yleiset siistimistyöt</li>
+						<li>Vahingoista tai vaurioista ilmoittaminen</li>
+						<li>Hankintatarpeista ilmoittaminen</li>
+					</ul>
+					<p>
+						Ilmoitukset hallitukselle tai isännöitsijälle. Jos vuoron hoitamiseen on este sovi vuoron
+						vaihtamisesta päikseen tai tuurauksesta.
+					</p>
+					<p>Auttaa saa aina!</p>
+				</section>
+			</div>
 		</vuorojen-parametrit>
 	</body>
 </html>
