@@ -31,6 +31,7 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 					margin: 0 0 1rem;
 				}
 
+				#liputuspaivat,
 				astro-dev-toolbar,
 				#edellinen-vuosi,
 				#seuraava-vuosi {
@@ -50,7 +51,7 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 				margin: 1rem 0 2rem;
 			}
 
-			.columns {
+			.palkit {
 				display: grid;
 				gap: 2rem;
 				grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
@@ -71,6 +72,10 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 				font-weight: bold;
 				width: 3ch;
 				text-align: center;
+			}
+
+			#liputuspaivat {
+				margin-top: 2rem;
 			}
 		</style>
 		<script>
@@ -221,7 +226,7 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 					<span id="next-year" hidden>Seuraava vuosi</span>
 				</button>
 			</header>
-			<div class="columns">
+			<div class="palkit">
 				<section>
 					<h2 data-text="heading5">Viikot</h2>
 					<div id="viikkovuorot"></div>
@@ -243,6 +248,12 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 						vaihtamisesta päikseen tai tuurauksesta.
 					</p>
 					<p>Auttaa saa aina!</p>
+					<div id="liputuspaivat">
+						<h2 data-text="heading5">Liputuspäivät</h2>
+						<p>
+							<a href="https://intermin.fi/suomen-lippu/liputuspaivat">Sisäministeriö: liputuspäivät</a>
+						</p>
+					</div>
 				</section>
 			</div>
 		</vuorojen-parametrit>
