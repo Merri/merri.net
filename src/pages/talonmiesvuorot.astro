@@ -31,6 +31,7 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 					margin: 0 0 1rem;
 				}
 
+				[for="korosta-asunto"],
 				#liputuspaivat,
 				astro-dev-toolbar,
 				#edellinen-vuosi,
@@ -74,6 +75,17 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 				text-align: center;
 			}
 
+			.viikkovuoro[data-valittu] > :first-child {
+				text-decoration: underline 2px var(--muted-50);
+				text-underline-offset: 0.25em;
+			}
+
+			.viikkovuoro[data-valittu] > :last-child {
+				border: 2px solid var(--muted-50);
+				border-radius: 1rem;
+				margin: -2px;
+			}
+
 			#liputuspaivat {
 				margin-top: 2rem;
 			}
@@ -103,7 +115,14 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 						return asunnot
 					}, [])
 
-					this.#updateWeeklyCalendar(this.getAttribute('year'))
+					this.#updateWeeklyCalendar(this.getAttribute('vuosi'))
+
+					const element = this.querySelector('#asunnot')
+					if (!element) return
+
+					element.innerHTML = this.#asunnot
+						.map((asunto) => `<option value="${asunto}">${asunto}</option>`)
+						.join('')
 				}
 
 				#updateWeeklyCalendar(year: string | null) {
@@ -126,7 +145,7 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 						apartmentIndex = (apartmentIndex + 1) % this.#asunnot.length
 						const currentWeek = `${year}-W${week.toString().padStart(2, '0')}`
 
-						html += `<li class="viikkovuoro"><span>${format(parseISO(currentWeek), 'dd.MM.')}</span><span>${apartment}</span></li>`
+						html += `<li class="viikkovuoro"${apartment === this.dataset.asunto ? ' data-valittu=""' : ''}><span>${format(parseISO(currentWeek), 'dd.MM.')}</span><span>${apartment}</span></li>`
 					}
 
 					element.innerHTML = `<ol class="viikkovuorot">${html}</ol>`
@@ -155,7 +174,7 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 				}
 
 				static get observedAttributes() {
-					return ['asunnot', 'ensi-vuoro', 'vuosi']
+					return ['asunnot', 'data-asunto', 'ensi-vuoro', 'vuosi']
 				}
 
 				attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
@@ -167,8 +186,9 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 							break
 						}
 
+						case 'data-asunto':
 						case 'ensi-vuoro': {
-							this.#updateWeeklyCalendar(this.getAttribute('year'))
+							this.#updateWeeklyCalendar(this.getAttribute('vuosi'))
 							break
 						}
 
@@ -230,6 +250,16 @@ const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 
 				<section>
 					<h2 data-text="heading5">Viikot</h2>
 					<div id="viikkovuorot"></div>
+					<label for="korosta-asunto">
+						Korosta:
+						<select
+							id="korosta-asunto"
+							oninput="this.closest('vuorojen-parametrit').dataset.asunto = this.value; return false"
+						>
+							<option selected value="">Ei korostusta</option>
+							<optgroup id="asunnot" label="Asunto"></optgroup>
+						</select>
+					</label>
 				</section>
 				<section>
 					<h2 data-text="heading5">Tehtävät</h2>
