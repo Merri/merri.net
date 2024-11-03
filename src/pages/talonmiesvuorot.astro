@@ -1,0 +1,234 @@
+---
+import 'alku'
+
+const now = new Date().toISOString()
+const initialYear = Number(now.slice(0, 4)) + (Number(now.slice(5, 7)) > 10 ? 1 : 0)
+---
+
+<!doctype html>
+<html lang="fi">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="dark light" />
+		<meta name="robots" content="noindex,noarchive" />
+		<title>Talonmiesvuorot</title>
+		<style is:global>
+			vuorojen-parametrit > header {
+				align-items: center;
+				display: flex;
+				justify-content: center;
+				margin: 2rem 0;
+				gap: 1.5rem;
+			}
+
+			@media print {
+				body {
+					font-size: 12pt;
+				}
+
+				vuorojen-parametrit > header {
+					margin: 0 0 1rem;
+				}
+
+				astro-dev-toolbar,
+				#edellinen-vuosi,
+				#seuraava-vuosi {
+					display: none;
+				}
+			}
+
+			.viikkovuorot {
+				display: grid;
+				font-family: var(--mono-font);
+				gap: 0.5ex;
+				grid-template-columns: repeat(auto-fit, minmax(min(100%, 14ch), 1fr));
+				margin: 1rem 0 2rem;
+			}
+
+			.viikkovuoro {
+				margin: 0;
+			}
+
+			.viikkovuoro > :first-child {
+				display: inline-block;
+				width: 6ch;
+				text-align: end;
+			}
+
+			.viikkovuoro > :last-child {
+				display: inline-block;
+				font-weight: bold;
+				width: 3ch;
+				text-align: center;
+			}
+		</style>
+		<script>
+			import { differenceInCalendarISOWeeks, format, getISOWeeksInYear, parseISO } from 'date-fns'
+
+			class VuorojenParametrit extends HTMLElement {
+				#asunnot: string[] = []
+
+				constructor() {
+					super()
+				}
+
+				#updateYear(year: string | null) {
+					this.querySelectorAll('nykyinen-vuosi').forEach((currentYear) => {
+						currentYear.textContent = year
+					})
+
+					this.#updateWeeklyCalendar(year)
+				}
+
+				#updateApartments(apartments: string | null) {
+					this.#asunnot = (apartments || '').split(',').reduce<string[]>((asunnot, asunto) => {
+						asunto = asunto.trim()
+						if (asunto) asunnot.push(asunto)
+						return asunnot
+					}, [])
+
+					this.#updateWeeklyCalendar(this.getAttribute('year'))
+				}
+
+				#updateWeeklyCalendar(year: string | null) {
+					const element = this.querySelector('#viikkovuorot')
+					if (!element) return
+
+					if (year == null) {
+						element.innerHTML = ''
+						return
+					}
+
+					const firstShiftWeek = parseISO(this.getAttribute('ensi-vuoro') ?? '2025-W01')
+					const firstWeek = parseISO(`${year}-W01`)
+					let apartmentIndex = differenceInCalendarISOWeeks(firstWeek, firstShiftWeek) % this.#asunnot.length
+
+					let html = ''
+
+					for (let week = 1, weeks = getISOWeeksInYear(year); week <= weeks; week++) {
+						const apartment = this.#asunnot.at(apartmentIndex)
+						apartmentIndex = (apartmentIndex + 1) % this.#asunnot.length
+						const currentWeek = `${year}-W${week.toString().padStart(2, '0')}`
+
+						html += `<li class="viikkovuoro"><span>${format(parseISO(currentWeek), 'dd.MM.')}</span><span>${apartment}</span></li>`
+					}
+
+					element.innerHTML = `<ol class="viikkovuorot">${html}</ol>`
+				}
+
+				connectedCallback() {
+					this.#updateApartments(this.getAttribute('asunnot'))
+
+					let year = this.getAttribute('vuosi') ?? '2025'
+
+					this.#updateYear(year)
+					const minYear = Number(this.getAttribute('pienin-vuosi') ?? year)
+					const maxYear = Number(this.getAttribute('suurin-vuosi') ?? year)
+
+					this.querySelector('#edellinen-vuosi')?.addEventListener('click', (event) => {
+						year = `${Math.max(minYear, Number(year) - 1)}`
+						this.setAttribute('vuosi', year)
+						event.preventDefault()
+					})
+
+					this.querySelector('#seuraava-vuosi')?.addEventListener('click', (event) => {
+						year = `${Math.min(Number(year) + 1, maxYear)}`
+						this.setAttribute('vuosi', year)
+						event.preventDefault()
+					})
+				}
+
+				static get observedAttributes() {
+					return ['asunnot', 'ensi-vuoro', 'vuosi']
+				}
+
+				attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+					if (oldValue === newValue) return
+
+					switch (name) {
+						case 'asunnot': {
+							this.#updateApartments(newValue)
+							break
+						}
+
+						case 'ensi-vuoro': {
+							this.#updateWeeklyCalendar(this.getAttribute('year'))
+							break
+						}
+
+						case 'vuosi': {
+							this.#updateYear(newValue)
+							break
+						}
+					}
+				}
+			}
+
+			customElements.define('vuorojen-parametrit', VuorojenParametrit)
+		</script>
+	</head>
+	<body data-column="largeContent">
+		<vuorojen-parametrit
+			vuosi={initialYear}
+			pienin-vuosi="2024"
+			suurin-vuosi="2225"
+			asunnot="A,B,C,D,E,F,G,H,I,J"
+			ensi-vuoro="2025-W01"
+		>
+			<header>
+				<button
+					id="edellinen-vuosi"
+					aria-labelledby="prev-year"
+					data-button="canvasColor mediumCircle"
+					type="button"
+				>
+					<svg width="24" height="24" viewBox="-2 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M4 12L20 12M4 12L10 6M4 12L10 18"
+							stroke="var(--icon-stroke-color,currentColor)"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"></path>
+					</svg>
+					<span id="prev-year" hidden>Edellinen vuosi</span>
+				</button>
+				<h1 data-text="heading4">Talonmiesvuorot <nykyinen-vuosi>{initialYear}</nykyinen-vuosi></h1>
+				<button
+					id="seuraava-vuosi"
+					aria-labelledby="next-year"
+					data-button="canvasColor mediumCircle"
+					type="button"
+				>
+					<svg width="24" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M20 12L4 12M20 12L14 18M20 12L14 6"
+							stroke="var(--icon-stroke-color,currentColor)"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"></path>
+					</svg>
+					<span id="next-year" hidden>Seuraava vuosi</span>
+				</button>
+			</header>
+			<section id="viikkovuorot"></section>
+			<h2 data-text="heading5">Tehtävät</h2>
+			<ul>
+				<li>Paisuntasäiliön lukeman kirjaus, havaitut poikkeamat hallitukselle</li>
+				<li>Liputus</li>
+				<li>Lumityöt / nurmikoiden leikkaus</li>
+				<li>Liukkauden esto</li>
+				<li>Sepelin ja suolan hankinta</li>
+				<li>Polttoaine lumilinkoon / ruohonleikkuriin</li>
+				<li>Yleiset siistimistyöt</li>
+				<li>Vahingoista tai vaurioista ilmoittaminen</li>
+				<li>Hankintatarpeista ilmoittaminen</li>
+				<p>
+					Ilmoitukset hallitukselle tai isännöitsijälle. Jos vuoron hoitamiseen on este sovi vuoron
+					vaihtamisesta päikseen tai tuurauksesta.
+				</p>
+				<p>Auttaa saa aina!</p>
+			</ul>
+		</vuorojen-parametrit>
+	</body>
+</html>
