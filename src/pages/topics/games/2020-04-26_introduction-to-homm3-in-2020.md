@@ -18,8 +18,8 @@ redirectPathnameTo: '/topics/games/2020-04-26_introduction-to-homm3-in-2020'
     - [Horn of the Abyss](#horn-of-the-abyss)
     - [Era II](#era-ii)
 4. [Communities and more information](#homm-3-communities-and-more-information)
-	- [Patches for the original CD releases](#patches-for-the-original-cd-releases)
-	- [See also](#see-also)
+    - [Patches for the original CD releases](#patches-for-the-original-cd-releases)
+    - [See also](#see-also)
 
 ---
 
@@ -72,8 +72,8 @@ very high level of skill which is out of reach for most modders. This is why VCM
 people to do mods that provide more variety than what is possible within the limitations of other fan projects (Era II,
 HD Mod).
 
--   [VCMI homepage](https://vcmi.eu/)
--   [Main VCMI thread at Heroes Community](http://heroescommunity.com/viewthread.php3?TID=30659)
+- [VCMI homepage](https://vcmi.eu/)
+- [Main VCMI thread at Heroes Community](http://heroescommunity.com/viewthread.php3?TID=30659)
 
 VCMI requires the original game files to function.
 
@@ -196,5 +196,5 @@ In case wondering, you need [7-zip](https://7-zip.org/) to handle 7z files.
 
 Some related content that you might find interesting.
 
--   [Wanted: Official HoMM I & II Patches](http://heroescommunity.com/viewthread.php3?TID=35226)
--   [New World Computing commercial CD releases](http://heroescommunity.com/viewthread.php3?TID=36854) (English releases)
+- [Wanted: Official HoMM I & II Patches](http://heroescommunity.com/viewthread.php3?TID=35226)
+- [New World Computing commercial CD releases](http://heroescommunity.com/viewthread.php3?TID=36854) (English releases)

@@ -1,8 +1,12 @@
+import type { MarkdownInstance } from 'astro'
+
+import type { BlogPost } from '$/types/blogPost.ts'
+
 interface Topic {
 	title: string
 	slug: string
 	description: string
-	posts: any[]
+	posts: MarkdownInstance<BlogPost>[]
 }
 
 const topics: Topic[] = [
@@ -21,7 +25,7 @@ const topics: Topic[] = [
 	},
 ]
 
-export function getTopics(getPosts: (topic: Topic, pathname: string) => any[]): Topic[] {
+export function getTopics(getPosts: (topic: Topic, pathname: string) => MarkdownInstance<BlogPost>[]): Topic[] {
 	return topics.map((topic: Topic) => ({
 		...topic,
 		posts: getPosts(topic, `/topics/${topic.slug}/`),

@@ -41,15 +41,16 @@
 </audio>
 <!-- Yes this is far more backwards compatible than the modern web needs -->
 <script is:inline>
-	!(function () {
-		var hasLS = !(function (l) {
+	;(function () {
+		const hasLS = !(function (l) {
 			try {
 				;(l = localStorage).removeItem((l._ = '_'))
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			} catch (e) {
 				return 1
 			}
 		})()
-		var noSound = hasLS ? localStorage.noSound != null : false
+		let noSound = hasLS ? localStorage.noSound != null : false
 		function updateSound() {
 			document.documentElement.setAttribute('data-sound', noSound ? 'false' : 'true')
 			if (hasLS) {
@@ -58,11 +59,11 @@
 			}
 		}
 		updateSound()
-		var equip = document.getElementById('sfx-equip')
-		var select = document.getElementById('sfx-select')
-		var soundOn = document.querySelector('#toggle-volume-on a')
-		var soundOff = document.querySelector('#toggle-volume-off a')
-		var sfx = {
+		const equip = document.getElementById('sfx-equip')
+		const select = document.getElementById('sfx-select')
+		const soundOn = document.querySelector('#toggle-volume-on a')
+		const soundOff = document.querySelector('#toggle-volume-off a')
+		const sfx = {
 			equip: [equip, equip.cloneNode(true), equip.cloneNode(true), equip.cloneNode(true), equip.cloneNode(true)],
 			select: [
 				select,
@@ -76,7 +77,7 @@
 		}
 		function focusIn(event) {
 			if (event.defaultPrevented || noSound) return
-			var link = event.target
+			const link = event.target
 			while (link && link.nodeName !== 'A') {
 				link = link.parentNode
 			}
@@ -86,13 +87,13 @@
 		}
 		function mouseOver(event) {
 			if (event.defaultPrevented || noSound) return
-			var link = event.target
+			const link = event.target
 			while (link && link.nodeName !== 'A') {
 				link = link.parentNode
 			}
 			if (!link || document.activeElement === link) return
 			if (document.activeElement.nodeName === 'A') document.activeElement.blur()
-			var timeout = setTimeout(() => {
+			const timeout = setTimeout(() => {
 				delete link.onmouseout
 				sfx.select[0].play()
 				sfx.select.push(sfx.select.shift())
@@ -104,7 +105,7 @@
 		}
 		document.body.addEventListener('click', function (event) {
 			if (event.defaultPrevented || noSound) return
-			var link = event.target
+			const link = event.target
 			while (link && link.nodeName !== 'A') {
 				link = link.parentNode
 			}
@@ -142,10 +143,10 @@
 </script>
 <!-- Centered pixel font hack: fight against blurry pixel fonts  -->
 <script is:inline>
-	!(function () {
+	;(function () {
 		const html = document.documentElement
 		const resizeObserver = new ResizeObserver((entries) => {
-			for (let entry of entries) {
+			for (const entry of entries) {
 				// Firefox implements `contentBoxSize` as a single content rect, rather than an array
 				const width = entry.contentBoxSize
 					? [].concat(entry.contentBoxSize)[0].inlineSize

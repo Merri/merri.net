@@ -1,15 +1,19 @@
 {
-	"moduleResolution": "node",
+	"extends": "astro/tsconfigs/strict",
 	"compilerOptions": {
+		"plugins": [{ "name": "typescript-plugin-css-modules" }],
 		"baseUrl": ".",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
 		"paths": {
 			"$/*": ["src/*"],
 			"$layouts/*": ["src/layouts/*"]
 		},
+		"target": "ES2022",
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
-		"strict": true
+		"skipLibCheck": false
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist", "public"]
+	"include": [".astro/types.d.ts", "src/**/*"],
+	"exclude": ["dist", "public"]
 }

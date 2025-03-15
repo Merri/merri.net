@@ -6,6 +6,7 @@ author: 'Vesa Piittinen'
 description: 'This accessibility related post explores valid use cases for role="button" in HTML (in React lens).'
 devUrl: 'https://dev.to/merri/should-i-ever-have-a-rolebutton-4f3c'
 ---
+
 The answer is no. You should always use `<button />`.
 
 However there exists **one** valid niche use case. You have a design where you have an element that looks like a link inside other running text. This means the element should wrap just like the text! So isn't this just a link? Well, there is a gotcha: for whatever reason the behavior of the element is not to navigate to another url but to do a button action.
@@ -25,7 +26,7 @@ The big problem when going ARIA route is the need to do so much to get things ri
 
 We would like to avoid all this. It would be so simple to just use `<button />` and style it as a link. But can we do that?
 
-----
+---
 
 ### Visually as a link
 
@@ -60,7 +61,7 @@ There aren't really much use for anchors on the web these days so this shouldn't
 
 The nice thing about this is that you get to handle the issue with rather minimal CSS, and it can happen in your `normalize.css` or equivalent place where you handle default styles. It makes sense since ideally we'll be using the native anchor element directly in our code, not a component that renders an anchor.
 
-----
+---
 
 ### Functionally like a button
 
@@ -69,7 +70,9 @@ We can do just `<a onClick={() => {}} />` and call it a day, right?
 **Wrong!** You also need to add in keyboard functionality. And that means there are multiple related things that need to be done. First and foremost the element needs to become accessible by keyboard. For that we need `tabIndex`!
 
 ```tsx
-<a onClick={onClick} tabIndex={0}>Looks like a link!</a>
+<a onClick={onClick} tabIndex={0}>
+	Looks like a link!
+</a>
 ```
 
 So are we done? We can now focus the element with a keyboard and get a default focus indication on it, too! However there is more to a `<button />` functionality. Links navigate when you press the enter key. Buttons do their action with enter. However buttons also do their action when you press the space key! And in this case we have an anchor element which reacts to neither, because **anchor is not a link**.
@@ -85,7 +88,7 @@ function onKeyDown(event: React.KeyboardEvent<any>) {
 	}
 }
 
-<a onClick={onClick} onKeyDown={onKeyDown} tabIndex={0}>
+;<a onClick={onClick} onKeyDown={onKeyDown} tabIndex={0}>
 	Looks like a link!
 </a>
 ```
@@ -112,7 +115,7 @@ I'm happy to let you know that we are not done. There is one thing in Firefox: i
 
 Darn it. How to remember all of that? You might be able to omit `draggable` but it might be a safer bet to have it to let everything absolutely know that we don't want dragging on this element.
 
-----
+---
 
 ### Announced as a button
 
@@ -174,11 +177,17 @@ With that we now have a rather complete solution with very few lines of addition
 
 ```tsx
 return (
-	<>This is text <a {...buttonRoleProps} onClick={onClick}>that has button looking like a link</a> within!</>
+	<>
+		This is text{' '}
+		<a {...buttonRoleProps} onClick={onClick}>
+			that has button looking like a link
+		</a>{' '}
+		within!
+	</>
 )
 ```
 
-----
+---
 
 ### But solving the issue
 
@@ -190,9 +199,7 @@ import { buttonRoleProps } from './buttonRoleProps'
 
 const cache = new WeakMap()
 
-const buttonize = (
-	props?: JSX.Element | React.HTMLProps<any> | null | false
-): JSX.Element | React.HTMLProps<any> => {
+const buttonize = (props?: JSX.Element | React.HTMLProps<any> | null | false): JSX.Element | React.HTMLProps<any> => {
 	if (!props) return buttonRoleProps
 
 	if ('onKeyDown' in props && typeof props.onKeyDown === 'function') {
@@ -238,7 +245,7 @@ For some other use case this kind of helper utility might be worth it. But here?
 
 Of course the code amount isn't **that bad** but it's still something for something that isn't really needed.
 
-----
+---
 
 ## Closing it
 

@@ -1,13 +1,13 @@
 ---
+import 'alku'
+
+import { getPermalink } from '$/lib/getPermalink'
+
 export interface Props {
 	title: string
 	description: string
 	fixPathname?: string
 }
-
-import 'alku'
-
-import { getPermalink } from '$/lib/getPermalink'
 
 const { title, description, fixPathname } = Astro.props
 const permalink = getPermalink(Astro.url, fixPathname)
@@ -27,7 +27,7 @@ const social = new URL('/assets/social.jpg', Astro.url).toString()
 	fixPathname && (
 		<>
 			<script is:inline>
-				!function(url) {history.replaceState(null, undefined, url.pathname)}(new
+				(function(url) {history.replaceState(null, undefined, url.pathname)})(new
 				URL(document.querySelector('[rel="canonical"]').getAttribute('href')))
 			</script>
 			<noscript>

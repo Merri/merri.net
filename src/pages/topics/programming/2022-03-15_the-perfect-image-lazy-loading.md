@@ -10,13 +10,7 @@ devUrl: 'https://dev.to/merri/the-perfect-image-lazy-loading-16i4'
 Alright, lets get our JavaScript coding fingers ready for we are going to make the most awesomest image lazy loading!
 
 ```html
-<img
-  alt="A giraffe eating fallback code solutions"
-  src="giraffe.jpg"
-  height="500"
-  width="1000"
-  loading="lazy"
-/>
+<img alt="A giraffe eating fallback code solutions" src="giraffe.jpg" height="500" width="1000" loading="lazy" />
 ```
 
 ## Wait, what?

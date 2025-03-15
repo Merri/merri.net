@@ -1,41 +1,50 @@
 {
-	"engines": {
-		"npm": "use-pnpm",
-		"pnpm": ">=8",
-		"yarn": "use-pnpm"
-	},
-	"name": "merri.net",
-	"version": "2025.0.0",
-	"main": "src/pages/index.astro",
-	"type": "module",
-	"license": "MIT",
-	"dependencies": {
-		"@astrojs/solid-js": "5.0.5",
-		"@types/memoizee": "0.4.11",
-		"alku": "1.1.0-rc.28",
-		"astro": "5.5.2",
-		"date-fns": "4.1.0",
-		"memoizee": "0.4.17",
-		"prettier-plugin-astro": "0.14.1",
-		"solid-js": "1.9.5"
-	},
-	"scripts": {
-		"start": "astro dev",
-		"build": "astro build",
-		"dev": "astro dev --local-development"
-	},
-	"devDependencies": {
-		"@types/d3-color": "3.1.3",
-		"@types/node": "22.13.10",
-		"d3-color": "3.1.0"
-	},
-	"keywords": [],
-	"description": "Merri.net",
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"es5-ext",
-			"esbuild",
-			"sharp"
-		]
-	}
+  "name": "merri.net",
+  "description": "Merri.net",
+  "version": "2025.0.0",
+  "main": "src/pages/index.astro",
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "@astrojs/check": "0.9.4",
+    "@astrojs/rss": "4.0.11",
+    "@astrojs/sitemap": "3.2.1",
+    "@astrojs/solid-js": "5.0.5",
+    "@astrojs/ts-plugin": "1.10.4",
+    "alku": "1.1.0-rc.28",
+    "astro": "5.5.2",
+    "date-fns": "4.1.0",
+    "memoizee": "0.4.17",
+    "solid-js": "1.9.5"
+  },
+  "scripts": {
+    "preinstall": "npx only-allow bun",
+    "build": "bunx --bun astro build",
+    "dev": "bunx --bun astro dev",
+    "prestart": "bun run build",
+    "start": "bunx --bun http-server dist",
+    "tsc": "bunx --bun astro check"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.20.0",
+    "@ianvs/prettier-plugin-sort-imports": "4.4.1",
+    "@types/d3-color": "3.1.3",
+    "@types/memoizee": "0.4.11",
+    "@types/node": "22.13.10",
+    "@typescript-eslint/parser": "8.24.0",
+    "d3-color": "3.1.0",
+    "eslint": "9.20.1",
+    "eslint-config-preact": "1.5.0",
+    "eslint-plugin-astro": "1.3.1",
+    "prettier": "3.5.3",
+    "prettier-plugin-astro": "0.14.1",
+    "typescript": "5.7.3",
+    "typescript-eslint": "8.24.0",
+    "typescript-plugin-css-modules": "5.1.0"
+  },
+  "keywords": [],
+  "trustedDependencies": [
+    "@parcel/watcher",
+    "es5-ext"
+  ]
 }

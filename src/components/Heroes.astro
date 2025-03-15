@@ -1,13 +1,13 @@
 ---
+import { format } from 'date-fns'
+import { fi } from 'date-fns/locale'
+
 export interface Props {
 	title: string
 	published?: Date
 	lastUpdated?: Date
 	author?: string
 }
-
-import { format } from 'date-fns'
-import { fi } from 'date-fns/locale'
 
 const { title, published, lastUpdated, author } = Astro.props
 

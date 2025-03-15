@@ -15,6 +15,8 @@ export interface Props {
 			alt?: string
 			title?: string
 		}
+		redirectPathnameFrom?: string
+		redirectPathnameTo?: string
 	};
 }
 
@@ -22,7 +24,7 @@ import BaseHead from '$/components/BaseHead.astro';
 import Heroes from '$/components/Heroes.astro';
 import PageFooter from '$/components/PageFooter.astro';
 import PageHeader from '$/components/PageHeader.astro';
-import { getPermalink } from '$/lib/getPermalink';
+//import { getPermalink } from '$/lib/getPermalink';
 
 const { content } = Astro.props;
 const { title, description, publishDate, lastUpdateDate, author, alt, devUrl, coverImage } = content;
@@ -30,8 +32,8 @@ const { title, description, publishDate, lastUpdateDate, author, alt, devUrl, co
 const published = new Date(publishDate);
 const lastUpdated = lastUpdateDate && new Date(lastUpdateDate);
 
-const fixPathname = (Astro.url.pathname === content.redirectPathnameFrom && content.redirectPathnameTo) || null
-const permalink = getPermalink(Astro.url, fixPathname)
+const fixPathname = (Astro.url.pathname === content.redirectPathnameFrom && content.redirectPathnameTo) || ''
+//const permalink = getPermalink(Astro.url, fixPathname)
 ---
 
 <html lang={ Astro.currentLocale || 'en' }>
@@ -44,7 +46,7 @@ const permalink = getPermalink(Astro.url, fixPathname)
 	<PageHeader />
 	<main id="main">
 		{coverImage && <>
-			<img class="cover-image" aria-hidden="true" alt={coverImage.alt || '' } src={coverImage.src}
+			<img class="cover-image" aria-hidden="true" alt={coverImage.alt || alt || '' } src={coverImage.src}
 				height={coverImage.height} width={coverImage.width} role="presentation" title={coverImage.title} />
 			<style>
 				.cover-image {
