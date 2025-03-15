@@ -10,10 +10,10 @@
 	"type": "module",
 	"license": "MIT",
 	"dependencies": {
-		"@astrojs/solid-js": "5.0.1",
+		"@astrojs/solid-js": "5.0.5",
 		"@types/memoizee": "0.4.11",
 		"alku": "1.1.0-rc.28",
-		"astro": "5.1.2",
+		"astro": "5.5.2",
 		"date-fns": "4.1.0",
 		"memoizee": "0.4.17",
 		"prettier-plugin-astro": "0.14.1",
@@ -30,5 +30,12 @@
 		"d3-color": "3.1.0"
 	},
 	"keywords": [],
-	"description": "Merri.net"
+	"description": "Merri.net",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"es5-ext",
+			"esbuild",
+			"sharp"
+		]
+	}
 }
