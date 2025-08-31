@@ -75,7 +75,7 @@
 		}
 		function focusIn(event) {
 			if (event.defaultPrevented || noSound) return
-			const link = event.target
+			let link = event.target
 			while (link && link.nodeName !== 'A') {
 				link = link.parentNode
 			}
@@ -85,7 +85,7 @@
 		}
 		function mouseOver(event) {
 			if (event.defaultPrevented || noSound) return
-			const link = event.target
+			let link = event.target
 			while (link && link.nodeName !== 'A') {
 				link = link.parentNode
 			}
@@ -103,7 +103,7 @@
 		}
 		document.body.addEventListener('click', function (event) {
 			if (event.defaultPrevented || noSound) return
-			const link = event.target
+			let link = event.target
 			while (link && link.nodeName !== 'A') {
 				link = link.parentNode
 			}
